@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         "target": "ES2023",
-        "strict": true,
+        "strict": false,
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "module": "CommonJS",
+        "module": "amd",
         "moduleResolution": "node",
         "declaration": true,
         "outDir": "../build"
