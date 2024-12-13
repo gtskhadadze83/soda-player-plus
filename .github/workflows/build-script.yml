@@ -11,7 +11,7 @@ jobs:
       - run: |-
           cd patch-script
           yarn install
-          yarn prepublishOnly
+          yarn start
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
