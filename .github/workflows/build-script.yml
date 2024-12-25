@@ -24,6 +24,6 @@ jobs:
           name: my-artifact
           path: |
             ./build/
-            ./patch/script/package.json
+            ./patch-script/package.json
             
           
