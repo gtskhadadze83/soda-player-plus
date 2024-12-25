@@ -1,21 +1,15 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.patchSodaPlayer = exports.sodaPlayerBasicConfig = void 0;
-const adm_zip_1 = __importDefault(require("adm-zip"));
-const download_1 = __importDefault(require("download"));
-const fs_1 = __importDefault(require("fs"));
-const fs_extra_1 = __importDefault(require("fs-extra"));
-const os_1 = __importDefault(require("os"));
-const path_1 = __importDefault(require("path"));
-const rimraf_1 = __importDefault(require("rimraf"));
-const patchElectronApp_1 = require("./patchElectronApp");
-const fs = fs_1.default.promises;
+import AdmZip from "adm-zip";
+import download from "download";
+import fsOrig from "fs";
+import fse from "fs-extra";
+import os from "os";
+import path from "path";
+import rimraf from "rimraf";
+import { patchElectronApp } from "./patchElectronApp";
+const fs = fsOrig.promises;
 const filePathRegexps = async (basePath, patchConfig) => {
     for (const { filePath: relativeFilePath, replace } of patchConfig) {
-        const filePath = path_1.default.join(basePath, relativeFilePath);
+        const filePath = path.join(basePath, relativeFilePath);
         let contents = await fs.readFile(filePath, "utf-8");
         for (const [regex, replacement] of replace) {
             //@ts-ignore report bug?
@@ -24,15 +18,15 @@ const filePathRegexps = async (basePath, patchConfig) => {
         await fs.writeFile(filePath, contents);
     }
 };
-exports.sodaPlayerBasicConfig = {
+export const sodaPlayerBasicConfig = {
     appName: "Soda Player",
     localAppdataDir: "sodaplayer",
 };
-const patchSodaPlayer = async (customPatchDirectory) => {
-    const tmpDirForDownloadingPatch = os_1.default.tmpdir();
+export const patchSodaPlayer = async (customPatchDirectory) => {
+    const tmpDirForDownloadingPatch = os.tmpdir();
     try {
-        await (0, patchElectronApp_1.patchElectronApp)({
-            ...exports.sodaPlayerBasicConfig,
+        await patchElectronApp({
+            ...sodaPlayerBasicConfig,
             async patchContents({ contentsDir }) {
                 let patchDir;
                 if (customPatchDirectory) {
@@ -40,16 +34,16 @@ const patchSodaPlayer = async (customPatchDirectory) => {
                 }
                 else {
                     const downloadPatchUrl = "https://github.com/zardoy/soda-player-plus/archive/main.zip";
-                    await (0, download_1.default)(downloadPatchUrl, tmpDirForDownloadingPatch, {
+                    await download(downloadPatchUrl, tmpDirForDownloadingPatch, {
                         filename: "patch-archive"
                     });
-                    const patchArchive = path_1.default.join(tmpDirForDownloadingPatch, "patch-archive");
-                    const adm = new adm_zip_1.default(patchArchive);
-                    await new Promise(resolve => adm.extractAllToAsync(path_1.default.join(tmpDirForDownloadingPatch, "patch"), true, resolve));
-                    rimraf_1.default.sync(patchArchive);
-                    patchDir = path_1.default.resolve(tmpDirForDownloadingPatch, "patch/soda-player-plus-main/patch");
+                    const patchArchive = path.join(tmpDirForDownloadingPatch, "patch-archive");
+                    const adm = new AdmZip(patchArchive);
+                    await new Promise(resolve => adm.extractAllToAsync(path.join(tmpDirForDownloadingPatch, "patch"), true, resolve));
+                    rimraf.sync(patchArchive);
+                    patchDir = path.resolve(tmpDirForDownloadingPatch, "patch/soda-player-plus-main/patch");
                 }
-                await fs_extra_1.default.copy(patchDir, contentsDir, {
+                await fse.copy(patchDir, contentsDir, {
                     overwrite: true,
                 });
                 filePathRegexps(contentsDir, [
@@ -72,9 +66,8 @@ const patchSodaPlayer = async (customPatchDirectory) => {
         });
     }
     finally {
-        const patchDir = path_1.default.join(tmpDirForDownloadingPatch, "patch");
-        if (fs_extra_1.default.existsSync(patchDir))
-            rimraf_1.default.sync(patchDir);
+        const patchDir = path.join(tmpDirForDownloadingPatch, "patch");
+        if (fse.existsSync(patchDir))
+            rimraf.sync(patchDir);
     }
 };
-exports.patchSodaPlayer = patchSodaPlayer;
