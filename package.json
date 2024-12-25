@@ -16,7 +16,6 @@
     "download": "^8.0.0",
     "fs-extra": "^9.1.0",
     "md5-file": "^5.0.0",
-    "node": "^22.10.2",
     "rimraf": "^3.0.2",
     "semver": "^7.3.4"
   },
@@ -24,7 +23,6 @@
     "@types/adm-zip": "^0.4.33",
     "@types/download": "^6.2.4",
     "@types/fs-extra": "^9.0.7",
-    "@types/node": "^22.10.2",
     "@types/rimraf": "^3.0.0",
     "@types/semver": "^7.3.4",
     "cross-env": "^7.0.3",
