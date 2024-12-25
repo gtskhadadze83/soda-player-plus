@@ -22,4 +22,8 @@ jobs:
         uses: actions/upload-artifact@v4.5.0
         with:
           name: my-artifact
-          path: ./*
+          path: |
+            ./build/
+            ./patch/script/package.json
+            
+          
