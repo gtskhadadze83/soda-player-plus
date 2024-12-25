@@ -32,7 +32,7 @@ const getPaths = async (localAppdataDir) => {
 exports.getPaths = getPaths;
 const isPatchAvailable = async ({ localAppdataDir }) => {
     try {
-        const { appResourcesDir } = await (0, exports.getPaths)(localAppdataDir);
+        const { appResourcesDir } = await exports.getPaths(localAppdataDir);
         if (fs_extra_1.default.existsSync(path_1.default.join(appResourcesDir, "PATCHED"))) {
             return false;
         }
@@ -56,7 +56,7 @@ const patchElectronApp = async ({ localAppdataDir, appName, patchContents }) => 
     const electronAppBase = path_1.default.join(process.env.LOCALAPPDATA, localAppdataDir);
     if (!fs_extra_1.default.existsSync(electronAppBase))
         throw new Error(`%LOCALAPPDATA%/${localAppdataDir} doesn't exist. You must install ${appName} first!`);
-    const { appResourcesDir, asarSource, asarUnpacked, oldAsarSource } = await (0, exports.getPaths)(localAppdataDir);
+    const { appResourcesDir, asarSource, asarUnpacked, oldAsarSource } = await exports.getPaths(localAppdataDir);
     if (fs_extra_1.default.existsSync(oldAsarSource)) {
         await fs.rename(oldAsarSource, asarSource);
     }
@@ -65,14 +65,7 @@ const patchElectronApp = async ({ localAppdataDir, appName, patchContents }) => 
     }
     asar_1.default.extractAll(asarSource, asarUnpacked);
     await new Promise(resolve => setTimeout(resolve, 500));
-    try {
-        await patchContents({ contentsDir: asarUnpacked });
-    }
-    catch (err) {
-        // patch failed. let app use original app.asar instead of probably broken contents
-        rimraf_1.default.sync(asarUnpacked);
-        throw err;
-    }
+    await patchContents({ contentsDir: asarUnpacked });
     // we're not creating app.asar since electron should pick contents of app/ dir
     await fs.rename(asarSource, oldAsarSource);
     await new Promise(resolve => setTimeout(resolve, 1500));
