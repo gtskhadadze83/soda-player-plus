@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: |-
           cd patch-script
-          yarn install --frozen-lockfile
+          yarn install
           yarn prepublishOnly
       - uses: peaceiris/actions-gh-pages@v4
         with:
