@@ -32,7 +32,7 @@ const getPaths = async (localAppdataDir) => {
 exports.getPaths = getPaths;
 const isPatchAvailable = async ({ localAppdataDir }) => {
     try {
-        const { appResourcesDir } = await exports.getPaths(localAppdataDir);
+        const { appResourcesDir } = await (0, exports.getPaths)(localAppdataDir);
         if (fs_extra_1.default.existsSync(path_1.default.join(appResourcesDir, "PATCHED"))) {
             return false;
         }
@@ -56,7 +56,7 @@ const patchElectronApp = async ({ localAppdataDir, appName, patchContents }) => 
     const electronAppBase = path_1.default.join(process.env.LOCALAPPDATA, localAppdataDir);
     if (!fs_extra_1.default.existsSync(electronAppBase))
         throw new Error(`%LOCALAPPDATA%/${localAppdataDir} doesn't exist. You must install ${appName} first!`);
-    const { appResourcesDir, asarSource, asarUnpacked, oldAsarSource } = await exports.getPaths(localAppdataDir);
+    const { appResourcesDir, asarSource, asarUnpacked, oldAsarSource } = await (0, exports.getPaths)(localAppdataDir);
     if (fs_extra_1.default.existsSync(oldAsarSource)) {
         await fs.rename(oldAsarSource, asarSource);
     }

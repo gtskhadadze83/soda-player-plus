@@ -30,7 +30,7 @@ exports.sodaPlayerBasicConfig = {
 };
 const patchSodaPlayer = async (customPatchDirectory) => {
     const tmpDirForDownloadingPatch = os_1.default.tmpdir();
-    await patchElectronApp_1.patchElectronApp({
+    await (0, patchElectronApp_1.patchElectronApp)({
         ...exports.sodaPlayerBasicConfig,
         async patchContents({ contentsDir }) {
             let patchDir;
@@ -39,7 +39,7 @@ const patchSodaPlayer = async (customPatchDirectory) => {
             }
             else {
                 const downloadPatchUrl = "https://github.com/zardoy/soda-player-plus/archive/main.zip";
-                await download_1.default(downloadPatchUrl, tmpDirForDownloadingPatch, {
+                await (0, download_1.default)(downloadPatchUrl, tmpDirForDownloadingPatch, {
                     filename: "patch-archive"
                 });
                 const patchArchive = path_1.default.join(tmpDirForDownloadingPatch, "patch-archive");
