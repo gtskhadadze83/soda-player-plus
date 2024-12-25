@@ -6,7 +6,7 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "module": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "nodenext",
         "declaration": true,
         "outDir": "../build"
     }
