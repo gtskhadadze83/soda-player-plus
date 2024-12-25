@@ -6,9 +6,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cross-env ts-node dev.ts",
+    "start": "cross-env DEV_MODE=1 ts-node index.ts",
     "open-unpacked-dir": "ts-node open-unpacked-dir.ts",
-    "prepublishOnly": "tsc -p tsconfig.build.json"
+    "prepublishOnly": "tsc"
   },
   "dependencies": {
     "adm-zip": "^0.5.3",
