@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "target": "ES2023",
-        "lib": ["ESNext", "ES2023", "ES2023.Array"],
-        "strict":false,
+        "lib": ["dom", "dom.iterable", "ESNext", "ES2023", "ES2023.Array"],
+        "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "module": "nodenext",
