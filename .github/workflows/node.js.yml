@@ -43,6 +43,8 @@ jobs:
             !dist/**/*.md
     - name: Archive code coverage results
       uses: actions/upload-artifact@v4
-        with:
+      with:
           name: code-coverage-report
           path: output/test/code-coverage.html
+    - name: Download all workflow run artifacts
+      uses: actions/download-artifact@v5
