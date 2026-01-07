@@ -30,6 +30,19 @@ jobs:
       run: |-
           cd patch-script
           yarn install --frozen-lockfile
+          yarn test
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-without-markdown
+        path: |
+          dist
+            !dist/**/*.md
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: output/test/code-coverage.html
