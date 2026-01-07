@@ -10,29 +10,26 @@ on:
     branches: [ "main","dev" ]
 
 jobs:
-  main:
+  build:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v2
     - run: |-
           cd patch-script
           yarn install --frozen-lockfile
+          yarn prepublishOnly
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}   
     - run: |-
           cd patch-script
-          npm install --package-lock-only
-          npm run build --if-present
-          npm audit fix --force
+          yarn
+          yarn run build --if-present
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
