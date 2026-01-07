@@ -24,7 +24,7 @@ jobs:
     - run: |-
           cd patch-script
           yarn install --frozen-lockfile
-          yarn prepublishOnly
+          yarn
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
