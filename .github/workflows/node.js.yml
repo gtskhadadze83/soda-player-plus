@@ -17,7 +17,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
     - run: |-
           cd patch-script
           yarn install --frozen-lockfile
@@ -29,7 +29,7 @@ jobs:
     - run: |-
           cd patch-script
           yarn
-          yarn run build --if-present
+          tsc -p tsconfig.build.json
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
