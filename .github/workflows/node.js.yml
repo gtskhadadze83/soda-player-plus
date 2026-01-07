@@ -29,7 +29,6 @@ jobs:
     - run: |-
           cd patch-script
           yarn
-          yarn start
           tsc -p tsconfig.build.json
           tsc --project tsconfig.json
     - name: Archive production artifacts
